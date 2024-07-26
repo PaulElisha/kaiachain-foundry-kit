@@ -4,8 +4,10 @@ pragma solidity ^0.8.24;
 import { IFeedProxy } from "lib/orakl/contracts/v0.2/src/interfaces/IFeedProxy.sol";
 import { VRFConsumerBase } from "lib/orakl/contracts/v0.1/src/VRFConsumerBase.sol";
 import { IVRFCoordinator } from "lib/orakl/contracts/v0.1/src/interfaces/IVRFCoordinator.sol";
-import { PriceConverter } from "src/PriceConverter.sol";
+import { PriceConverter } from "src/PriceConverterPyth.sol";
 import { TokenERC20 } from "src/TokenERC20.sol";
+import "@pythnetwork/pyth-sdk-solidity/IPyth.sol";
+
 
 /// @title LuckyDraw
 /// @author BlockCMD
@@ -23,7 +25,7 @@ contract LuckyDraw is VRFConsumerBase {
     // Gas limit to use for VRF requests
     uint32 public callbackGasLimit = 2_000_000;
     // Data feed contract for KLAY-USDT
-    IFeedProxy private s_dataFeed;
+    IPyth private pyth;
     // Number of words to request
     uint256 private numWords = 1;
 
@@ -33,7 +35,7 @@ contract LuckyDraw is VRFConsumerBase {
     uint256 private requestId;
     TokenERC20 public tokenERC20;
     uint256 public lastRandomValue;
-
+    bytes32 feedId;
     /// -----------------------------------------------------------------------
     /// Library usage
     /// -----------------------------------------------------------------------
@@ -64,11 +66,13 @@ contract LuckyDraw is VRFConsumerBase {
         address _dataFeed,
         address _coordinator,
         bytes32 _keyHash,
-        uint64 _accountId
+        uint64 _accountId,
+        bytes32 _feedId
     )
         VRFConsumerBase(_coordinator)
     {
-        s_dataFeed = IFeedProxy(_dataFeed);
+        pyth = IPyth(_dataFeed);
+        feedId = _feedId;
         COORDINATOR = IVRFCoordinator(_coordinator);
         accountId = _accountId;
         keyHash = _keyHash;
@@ -124,8 +128,8 @@ contract LuckyDraw is VRFConsumerBase {
     /// -----------------------------------------------------------------------
     /// Getters
     /// -----------------------------------------------------------------------
-    function suggestedAmount() public view returns (uint256) {
-        uint256 currentPrice = PriceConverter.getPrice(s_dataFeed);
+    function suggestedAmount(bytes[] calldata priceUpdate) public returns (uint256) {
+        uint256 currentPrice = PriceConverter.getPrice(feedId, address(pyth), priceUpdate);
         return MINIMUM_USD / currentPrice;
     }
 }
