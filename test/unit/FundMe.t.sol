@@ -9,7 +9,7 @@ contract FundMeTest is Test {
     FundMe fundMe;
     address USER = makeAddr("user");
     address USER1 = makeAddr("user1");
-    uint256 constant SEND_VALUE = 0.1 ether;
+    uint256 constant SEND_VALUE = 5 ether;
     uint256 constant STARTING_BALANCE = 10 ether;
     uint256 constant GAS_PRICE = 1;
 
@@ -30,38 +30,54 @@ contract FundMeTest is Test {
 
     function testFundFailsNotEnoughEth() public {
         vm.expectRevert();
-        fundMe.fund(); // Not Enough Eth Sent
+        fundMe.fundUnsafe(); // Not Enough Eth Sent
     }
 
-    modifier fund() {
+    function testFundFailsNotEnoughEthAndEmptyCallData() public {
+        vm.expectRevert();
+        fundMe.fundWithPriceUpdate(new bytes[](0)); // Not Enough Eth Sent
+    }
+
+    function testFundFailsEmptyCallData() public {
+        vm.expectRevert();
+        fundMe.fundWithPriceUpdate{value: SEND_VALUE}(new bytes[](0)); // Not Enough Eth Sent
+    }
+
+    modifier fundUnsafe() {
         vm.prank(USER);
-        fundMe.fund{value: SEND_VALUE}();
+        fundMe.fundUnsafe{value: SEND_VALUE}();
         _;
     }
 
-    function testFundUpdatesFunderMapping() public fund {
+    modifier fundWithPriceUpdate() {
+        vm.prank(USER);
+        fundMe.fundWithPriceUpdate{value: SEND_VALUE}(new bytes[](0));
+        _;
+    }
+
+    function testFundUpdatesFunderMapping() public fundUnsafe {
         uint256 amountFunded = fundMe.getAddressToAmountFunded(USER);
         assertEq(amountFunded, SEND_VALUE);
     }
 
-    function testGetFunderInArray() public fund {
+    function testGetFunderInArray() public fundUnsafe {
         address funder = fundMe.getFunder(0);
         vm.expectRevert();
         assertEq(funder, USER1);
     }
 
-    function testNotFunderInArray() public fund {
+    function testNotFunderInArray() public fundUnsafe {
         address funder = fundMe.getFunder(0);
         assertEq(funder, USER);
     }
 
-    function testOnlyOwnerCanWithdraw() public fund {
+    function testOnlyOwnerCanWithdraw() public fundUnsafe {
         vm.expectRevert();
         vm.prank(USER);
         fundMe.withdraw();
     }
 
-    function testWithdrawWithASingleFunder() public fund {
+    function testWithdrawWithASingleFunder() public fundUnsafe {
         uint256 startingOwnerBalance = fundMe.getOwner().balance;
         uint256 startingfundMeBalance = address(fundMe).balance;
 
@@ -78,13 +94,13 @@ contract FundMeTest is Test {
         );
     }
 
-    function testWithdrawWithMultipleFunders() public fund {
+    function testWithdrawWithMultipleFunders() public fundUnsafe {
         uint160 numberOfFunders = 10;
         uint160 startingFundersIndex = 1;
 
         for (uint160 i = startingFundersIndex; i < numberOfFunders; i++) {
             hoax(address(i), SEND_VALUE);
-            fundMe.fund{value: SEND_VALUE}();
+            fundMe.fundUnsafe{value: SEND_VALUE}();
         }
 
         uint256 startingOwnerBalance = fundMe.getOwner().balance;

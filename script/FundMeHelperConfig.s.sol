@@ -6,7 +6,8 @@ import "forge-std/Script.sol";
 contract FundMeHelperConfig is Script {
     
     struct NetworkConfig {
-        address dataFeed; // Eth dataFeed
+        address dataFeed;
+        bytes32 id; // Eth dataFeed
     }
 
     NetworkConfig public activeNetworkConfig;
@@ -27,7 +28,8 @@ contract FundMeHelperConfig is Script {
         returns (NetworkConfig memory)
     {
         NetworkConfig memory networkConfig = NetworkConfig({
-            dataFeed: 0x2880aB155794e7179c9eE2e38200202908C17B43
+            dataFeed: 0x2880aB155794e7179c9eE2e38200202908C17B43,
+            id: 0xde5e6ef09931fecc7fdd8aaa97844e981f3e7bb1c86a6ffc68e9166bb0db3743
         });
         return networkConfig;
     }
@@ -38,7 +40,8 @@ contract FundMeHelperConfig is Script {
         returns (NetworkConfig memory)
     {
         NetworkConfig memory networkConfig = NetworkConfig({
-            dataFeed: 0x2880aB155794e7179c9eE2e38200202908C17B43
+            dataFeed: 0x2880aB155794e7179c9eE2e38200202908C17B43,
+            id: 0xde5e6ef09931fecc7fdd8aaa97844e981f3e7bb1c86a6ffc68e9166bb0db3743
         });
         return networkConfig;
     }

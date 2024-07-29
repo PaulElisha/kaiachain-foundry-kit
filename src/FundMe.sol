@@ -30,7 +30,7 @@ contract FundMe {
         i_feedId = Id;
     }
 
-    function fund() public payable {
+    function fundUnsafe() public payable {
         require(
             msg.value.getConversionRateUnsafe(i_feedId, pyth) >= MINIMUM_USD,
             "Didn't send enough ETH"
@@ -80,6 +80,6 @@ contract FundMe {
     }
 
     receive() external payable {
-        fund();
+        fundUnsafe();
     }
 }
