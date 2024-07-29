@@ -14,7 +14,6 @@ library PriceConverter {
     function getPrice(IFeedProxy priceFeed) internal view returns (uint256 price) {
         (, int256 answer,) = priceFeed.latestRoundData(); // 8 digits
         price = uint256(answer * 10 ** 10); // 18 digits
-        return price; // 18 digits
     }
 
     /// @notice Convert the KLAY amount to USD amount
@@ -31,7 +30,5 @@ library PriceConverter {
     {
         uint256 klayPrice = getPrice(priceFeed);
         klayAmountInUsd = (klayPrice * klayAmount) / 10 ** 18;
-        // the actual KLAY/USD conversation rate, after adjusting the extra 0s to be in wei unit.
-        return klayAmountInUsd;
     }
 }
