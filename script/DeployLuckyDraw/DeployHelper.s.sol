@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import { MockDataFeedAggregator } from "test/mocks/MockDataFeedAggregator.t.sol";
-import { Script } from "forge-std/Script.sol";
+import '../../test/LuckyDrawTest/mocks/MockDataFeedAggregator.t.sol';
+import "forge-std/Script.sol";
 
 contract DeployHelper is Script {
     /// @dev declare a struct to store the network configuration

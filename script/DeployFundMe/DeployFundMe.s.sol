@@ -2,8 +2,8 @@
 pragma solidity ^0.8.22;
 
 import "forge-std/Script.sol";
-import "../src/FundMe.sol";
-import "./FundMeHelperConfig.s.sol";
+import '../../src/FundMe/FundMe.sol';
+import '../DeployFundMe/FundMeHelperConfig.s.sol';
 
 contract DeployFundMe is Script {
 

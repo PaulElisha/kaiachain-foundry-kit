@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import { Script, console } from "forge-std/Script.sol";
-import { LuckyDraw } from "src/LuckyDraw.sol";
-import { IPrepayment } from "orakl/contracts/v0.1/src/interfaces/IPrepayment.sol";
-import { DevOpsTools } from "lib/foundry-devops/src/DevOpsTools.sol";
+import  "forge-std/Script.sol";
+import '../../src/LuckyDraw/LuckyDraw.sol';
+import  "orakl/contracts/v0.1/src/interfaces/IPrepayment.sol";
+import "lib/foundry-devops/src/DevOpsTools.sol";
 
 contract DrawLuckyDraw is Script {
     /// -----------------------------------------------------------------------

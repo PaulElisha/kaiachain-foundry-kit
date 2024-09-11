@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import { Script } from "forge-std/Script.sol";
-import { DeployHelper } from "./DeployHelper.s.sol";
-import { TokenERC20 } from "src/TokenERC20.sol";
-import { LuckyDraw } from "../src/LuckyDraw.sol";
+import "forge-std/Script.sol";
+import  "./DeployHelper.s.sol";
+import '../../src/Token/TokenERC20.sol';
+import '../../src/LuckyDraw/LuckyDraw.sol';
 
 contract Deploy is Script {
     function run() external returns (LuckyDraw, TokenERC20, DeployHelper) {

@@ -2,8 +2,8 @@
 
 pragma solidity 0.8.25;
 
-import { TokenKIP7 } from "src/TokenKIP7.sol";
-import { Test, console } from "forge-std/Test.sol";
+import '../../../src/Token/TokenKIP7.sol';
+import "forge-std/Test.sol";
 
 contract TokenKIP7Test is Test {
     TokenKIP7 public tokenKIP7;

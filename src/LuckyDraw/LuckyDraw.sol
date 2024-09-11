@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import { IFeedProxy } from "lib/orakl/contracts/v0.2/src/interfaces/IFeedProxy.sol";
-import { VRFConsumerBase } from "lib/orakl/contracts/v0.1/src/VRFConsumerBase.sol";
-import { IVRFCoordinator } from "lib/orakl/contracts/v0.1/src/interfaces/IVRFCoordinator.sol";
-import { PriceConverter } from "src/PriceConverter.sol";
-import { TokenERC20 } from "src/TokenERC20.sol";
+import "lib/orakl/contracts/v0.2/src/interfaces/IFeedProxy.sol";
+import "lib/orakl/contracts/v0.1/src/VRFConsumerBase.sol";
+import "lib/orakl/contracts/v0.1/src/interfaces/IVRFCoordinator.sol";
+import '../LuckyDraw/PriceConverter.sol';
+import '../../src/Token/TokenERC20.sol';
 
 /// @title LuckyDraw
 /// @author BlockCMD
