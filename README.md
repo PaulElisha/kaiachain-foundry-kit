@@ -30,7 +30,7 @@ The purpose of this kit is to simplify the development process by providing:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/PaulElisha/kaia-dapp-mono.git
+   git clone https://github.com/PaulElisha/kaiachain-foundry-kit.git
    cd kaia-dapp-mono
 
 ## Resources
